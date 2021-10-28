@@ -1,0 +1,10 @@
+overwrite: true
+schema: '../server/schema.json'
+# schema: '../node-server/src/schema.graphql'
+documents: null
+generates:
+  ./src/generated/graphql-types.ts:
+    plugins:
+      - 'typescript'
+      - 'typescript-operations'
+      - 'typescript-react-apollo'

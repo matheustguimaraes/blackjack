@@ -1,0 +1,22 @@
+version: '3'
+services:
+  db:
+    image: postgres
+    container_name: deckofcards-db
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+  deckofcards:
+    build:
+      context: .
+      dockerfile: ./docker/Docker.server/Dockerfile
+    image: deckofcards
+    env_file: .env
+    container_name: deckofcards
+    volumes:
+      - .:/code
+    ports:
+      - "5000:5000"
+    depends_on:
+      - db
+    links:
+      - db:postgres

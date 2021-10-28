@@ -1,0 +1,129 @@
+{
+  "info": {
+    "_postman_id": "35242df6-cdf2-4ad4-bbec-a8c23538d287",
+    "name": "deck-of-cards",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "create-deck",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", ""]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "index",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "read",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "deal",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0/deal",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0", "deal"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "reset",
+      "request": {
+        "method": "POST",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0/reset",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0", "reset"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "win_lose",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0/win_lose",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0", "win_lose"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "count_deck",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0/count_deck",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0", "count_deck"]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "stats",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://127.0.0.1:8000/api/deck/0/stats",
+          "protocol": "http",
+          "host": ["127", "0", "0", "1"],
+          "port": "8000",
+          "path": ["api", "deck", "0", "stats"]
+        }
+      },
+      "response": []
+    }
+  ]
+}

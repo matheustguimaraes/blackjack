@@ -1,0 +1,124 @@
+#!/bin/bash
+# This script pulls together frequent commands for orchestrating
+# our docker setup.
+
+set -x
+cd "$(dirname $0)"
+
+task=$1 # More descriptive name
+arg=$2
+args=${*:2}
+
+# Copy the env file if it doesn't exist
+if [ ! -f .env ]; then
+    cp .env.example .env
+fi
+source .env
+
+case $task in
+    build)
+        # Build docker containers. Pass --no-cache to force re-downloading of images.
+        # See build --help for additional info
+        docker-compose build $args
+        ;;
+    start)
+        # Start docker containers.
+        # See up --help for additional info
+        docker-compose up $args
+        ;;
+    stop)
+        # Stop docker containers.
+        docker-compose stop
+        ;;
+    clean)
+        # Remove docker containers (if they exist)
+        # Run this with --rmi all to remove the mysql image too
+        docker-compose down --rmi local
+        ;;
+    bash)
+        # SSH (bash) into server container.
+        # Useful for running Django shell commands.
+        docker exec -it deckofcards bash
+        ;;
+    bashdb)
+        # SSH (bash) into database container.
+        # Useful for running commands directly against database.
+        docker exec -it deckofcards-db bash
+        ;;
+    shell)
+        # SSH (bash) into server container.
+        # Useful for running Django shell commands.
+        docker exec -it deckofcards python manage.py shell
+        ;;
+    install-local)
+        # Install package, e.g. ./docker-assist install --dev django_extensions
+        docker exec -it deckofcards poetry install $args
+        ;;
+    install-system)
+        # Install/reinstall from poetry
+        docker exec -it deckofcards poetry install
+        ;;
+    lint)
+        # Lint server code automatically with black and autoflake
+        # WARNING: This updates files in-place.
+        docker exec deckofcards black /code/server
+        docker exec deckofcards isort -rc /code/server
+        docker exec deckofcards autoflake . --in-place --recursive --remove-all-unused-imports --remove-duplicate-keys --remove-unused-variables
+        if ! git diff-index --quiet HEAD --; then
+            echo "Changes made. See git diff"
+            exit 1
+        fi
+        ;;
+    security-check)
+        # Security vulnerability checks
+        # Check packages
+        docker exec deckofcards poetry run safety check
+        # Check files, except tests. See also server/.bandit config
+        docker exec deckofcards bandit -r server
+        ;;
+    dbshell)
+        # SSH (bash) into database container.
+        # Useful for running postgres commands.
+        docker exec -it deckofcards-db psql -U postgres
+        ;;
+    cleandb)
+        # Drop the local database.
+        docker exec -it deckofcards-db psql -h db -U postgres -c "DROP DATABASE IF EXISTS deckofcards"
+        ;;
+    migrate)
+        # Run database migrations.
+        docker exec -it deckofcards python manage.py migrate $args
+        ;;
+    test)
+        echo "Running tests with cache (use --cache-clear otherwise)..."
+        docker-compose run \
+            --rm \
+            --name deckofcards-test \
+            deckofcards \
+            pytest $args
+        ;;
+    'help')
+        scriptname=`basename "$0"`
+        echo 'Usage: ./'$scriptname' action [params]. Available actions:'
+        echo '    build: build or rebuild containers'
+        echo '    start: start containers'
+        echo '    stop: stop containers'
+        echo '    clean: remove containers, including databases'
+        echo '    bash: bash into the server container'
+        echo '    shell: start django shell'
+        echo '    migrate: run django migrations'
+        echo '    lint: lint server (python) code'
+        echo '    bashdb: bash into the database container'
+        echo '    cleandb: drop database'
+        echo '    dbshell: start database cli'
+        echo '    security-check: run a security check for server-side vulnerabilities'
+        ;;
+    '')
+        scriptname=`basename "$0"`
+        echo 'Usage: ./'$scriptname' action [params]. For a list of actions, run ./'$scriptname' help'
+        ;;
+    *)
+        scriptname=`basename "$0"`
+        echo 'Unknown action '$task'. For a list of the available actions, run ./'$scriptname' help'
+        ;;
+esac

@@ -1,0 +1,7 @@
+@import './tailwind.css';
+
+/* font used in the `CardsCounterBox` */
+@import url('https://fonts.googleapis.com/css2?family=Courier+Prime:wght@400;700&display=swap');
+
+/* font used in the `DealButton` */
+@import url('https://fonts.googleapis.com/css2?family=Alfa+Slab+One&display=swap');

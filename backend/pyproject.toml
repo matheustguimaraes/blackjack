@@ -1,0 +1,75 @@
+[tool.black]
+line-length = 100
+target_version = ['py38']
+include = '\.pyi?$'
+exclude = '''
+(
+  /(
+      \.eggs         # exclude a few common directories in the
+    | \.git          # root of the project
+    | \.mypy_cache
+    | \.pytest_cache
+    | \.tox
+    | \.venv
+    | _build
+    | build
+    | dist
+    | node_modules
+    | public
+    | src
+    | staticfiles
+  )/
+)
+'''
+[tool.isort]
+line_length = 100
+# multi_line_output
+# 3 = "Vertical Hanging Indent", options here: https://timothycrosley.github.io/isort/#multi-line-output-modes
+multi_line_output = 3
+include_trailing_comma = true
+sections = "FUTURE,STDLIB,DJANGO,THIRDPARTY,FIRSTPARTY,LOCALFOLDER"
+known_django = "django,celery,corsheaders,graphene,graphene-django,graphql_relay"
+known_first_party = "deckofcards"
+default_section = "THIRDPARTY"
+
+[tool.poetry]
+name = "deckofcards"
+version = "0.1.0"
+description = ""
+authors = ["deckofcards <test@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.9.5"
+celery = "*"
+django = ">=3"
+django-cors-headers = "*"
+django-environ = "*"
+graphene = "*"
+graphene-django = "*"
+gunicorn = "*"
+psycopg2-binary = "*"
+
+[tool.poetry.dev-dependencies]
+autoflake = "*"
+bandit = "*"
+black = "^20.8b1"
+django-dotenv = "*"
+django-extensions = "*"
+factory-boy = "*"
+faker = "*"
+flake8 = "*"
+flake8-datetimez = "*"
+flake8-docstrings = "*"
+ipython = "*"
+isort = "*"
+mccabe = "*"
+pytest = "*"
+pytest-cov = "*"
+pytest-deadfixtures = "*"
+pytest-django = "*"
+pytest-factoryboy = "*"
+pytest-flakes = "*"
+pytest-mock = "*"
+pytest-pep8 = "*"
+pytest-xdist = "*"
+safety = "*"
