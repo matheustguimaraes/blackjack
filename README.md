@@ -1,4 +1,4 @@
-# deck of cards
+# blackjack
 
 Blackjack built using Django, React, Docker and PostgreSQL.
 
